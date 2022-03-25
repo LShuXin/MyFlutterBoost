@@ -1,0 +1,206 @@
+diff --git a/android/build.gradle b/android/build.gradle
+index a9043b6..6ff672f 100755
+--- a/android/build.gradle
++++ b/android/build.gradle
+@@ -22,8 +22,8 @@ rootProject.allprojects {
+ apply plugin: 'com.android.library'
+ 
+ android {
+-    compileSdkVersion 29
+-    buildToolsVersion '27.0.3'
++    compileSdkVersion 31
++    // buildToolsVersion '27.0.3'
+     defaultConfig {
+         minSdkVersion 16
+         targetSdkVersion 28
+diff --git a/android/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostActivity.java b/android/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostActivity.java
+index b345f9d..464fe5e 100644
+--- a/android/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostActivity.java
++++ b/android/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostActivity.java
+@@ -156,7 +156,8 @@ public class FlutterBoostActivity extends FlutterActivity implements FlutterView
+     private void performAttach() {
+         if (!isAttached) {
+             // Attach plugins to the activity.
+-            getFlutterEngine().getActivityControlSurface().attachToActivity(getActivity(), getLifecycle());
++            // getFlutterEngine().getActivityControlSurface().attachToActivity(getActivity(), getLifecycle());
++            getFlutterEngine().getActivityControlSurface().attachToActivity(delegate, getLifecycle());
+ 
+             if (platformPlugin == null) {
+                 platformPlugin = new PlatformPlugin(getActivity(), getFlutterEngine().getPlatformChannel());
+diff --git a/android/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostFragment.java b/android/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostFragment.java
+index e5e1dcd..61fe8ac 100644
+--- a/android/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostFragment.java
++++ b/android/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostFragment.java
+@@ -43,6 +43,16 @@ public class FlutterBoostFragment extends FlutterFragment implements FlutterView
+     private boolean isAttached = false;
+     private boolean isFinishing = false;
+ 
++    class FakeExclusiveAppComponent implements io.flutter.embedding.android.ExclusiveAppComponent<Activity> {
++        public void detachFromFlutterEngine() {
++            // do nothing.
++        }
++        public Activity getAppComponent() {
++            return getActivity();
++        }
++    }
++    private FakeExclusiveAppComponent fakeAppComponent = new FakeExclusiveAppComponent();
++
+     // @Override
+     public void detachFromFlutterEngine() {
+         /**
+@@ -314,8 +324,8 @@ public class FlutterBoostFragment extends FlutterFragment implements FlutterView
+     private void performAttach() {
+         if (!isAttached) {
+             // Attach plugins to the activity.
+-            getFlutterEngine().getActivityControlSurface().attachToActivity(getActivity(), getLifecycle());
+-
++            // getFlutterEngine().getActivityControlSurface().attachToActivity(getActivity(), getLifecycle());
++            getFlutterEngine().getActivityControlSurface().attachToActivity(fakeAppComponent, getLifecycle());
+             if (platformPlugin == null) {
+                 platformPlugin = new PlatformPlugin(getActivity(), getFlutterEngine().getPlatformChannel());
+             }
+diff --git a/android/src/main/java/com/idlefish/flutterboost/containers/FlutterTextureHooker.java b/android/src/main/java/com/idlefish/flutterboost/containers/FlutterTextureHooker.java
+index 1c811a6..6e04774 100644
+--- a/android/src/main/java/com/idlefish/flutterboost/containers/FlutterTextureHooker.java
++++ b/android/src/main/java/com/idlefish/flutterboost/containers/FlutterTextureHooker.java
+@@ -59,7 +59,7 @@ class FlutterTextureHooker {
+ 
+                             FlutterRenderer flutterRenderer = engine.getRenderer();
+                             Surface         surface         = new Surface(restoreSurface);
+-                            flutterRenderer.startRenderingToSurface(surface);
++                            flutterRenderer.startRenderingToSurface(surface, true);
+ 
+                             flutterTextureView.setSurfaceTexture(restoreSurface);
+                         }
+diff --git a/example/android/app/build.gradle b/example/android/app/build.gradle
+index 824eb1a..fe18215 100755
+--- a/example/android/app/build.gradle
++++ b/example/android/app/build.gradle
+@@ -25,7 +25,7 @@ apply plugin: 'com.android.application'
+ apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+ 
+ android {
+-    compileSdkVersion 29
++    compileSdkVersion 31
+ 
+     lintOptions {
+         disable 'InvalidPackage'
+diff --git a/example/android/app/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostView.java b/example/android/app/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostView.java
+index c031b6c..c5798a2 100644
+--- a/example/android/app/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostView.java
++++ b/example/android/app/src/main/java/com/idlefish/flutterboost/containers/FlutterBoostView.java
+@@ -6,6 +6,7 @@ import android.util.Log;
+ import android.view.View;
+ 
+ import androidx.annotation.NonNull;
++import androidx.annotation.Nullable;
+ 
+ import com.idlefish.flutterboost.FlutterBoost;
+ import com.idlefish.flutterboost.FlutterBoostUtils;
+@@ -15,6 +16,7 @@ import java.util.HashMap;
+ import java.util.Map;
+ import java.util.UUID;
+ 
++import io.flutter.embedding.android.ExclusiveAppComponent;
+ import io.flutter.embedding.android.LifecycleView;
+ import io.flutter.embedding.android.RenderMode;
+ import io.flutter.embedding.android.TransparencyMode;
+@@ -198,6 +200,17 @@ public class FlutterBoostView extends LifecycleView implements FlutterViewContai
+       return getArguments().getString(ARG_CACHED_ENGINE_ID, FlutterBoost.ENGINE_ID);
+     }
+ 
++    @Nullable
++    @Override
++    public String getDartEntrypointLibraryUri() {
++        return null;
++    }
++
++    @Override
++    public ExclusiveAppComponent<Activity> getExclusiveAppComponent() {
++        return null;
++    }
++
+     public void onFlutterUiDisplayed() {
+         if (callback != null) {
+             callback.onFlutterUiDisplayed();
+@@ -220,6 +233,16 @@ public class FlutterBoostView extends LifecycleView implements FlutterViewContai
+         }
+     }
+ 
++    @Override
++    public void updateSystemUiOverlays() {
++
++    }
++
++    @Override
++    public boolean shouldDispatchAppLifecycleState() {
++        return false;
++    }
++
+     public String getUrl() {
+         if (!getArguments().containsKey(EXTRA_URL)) {
+             throw new RuntimeException("Oops! The view url are *MISSED*! You should "
+diff --git a/example/android/app/src/main/java/io/flutter/embedding/android/LifecycleView.java b/example/android/app/src/main/java/io/flutter/embedding/android/LifecycleView.java
+index 7ef913d..36faaba 100644
+--- a/example/android/app/src/main/java/io/flutter/embedding/android/LifecycleView.java
++++ b/example/android/app/src/main/java/io/flutter/embedding/android/LifecycleView.java
+@@ -19,7 +19,7 @@ import io.flutter.embedding.engine.FlutterShellArgs;
+ import io.flutter.plugin.platform.PlatformPlugin;
+ import io.flutter.view.FlutterMain;
+ 
+-public class LifecycleView extends FrameLayout implements LifecycleOwner, FlutterActivityAndFragmentDelegate.Host {
++public abstract class LifecycleView extends FrameLayout implements LifecycleOwner, FlutterActivityAndFragmentDelegate.Host {
+   protected static final String ARG_DART_ENTRYPOINT = "dart_entrypoint";
+   protected static final String ARG_INITIAL_ROUTE = "initial_route";
+   protected static final String ARG_APP_BUNDLE_PATH = "app_bundle_path";
+diff --git a/example/android/build.gradle b/example/android/build.gradle
+index e6d2c7c..7babf1a 100755
+--- a/example/android/build.gradle
++++ b/example/android/build.gradle
+@@ -5,7 +5,7 @@ buildscript {
+     }
+ 
+     dependencies {
+-        classpath 'com.android.tools.build:gradle:3.2.0'
++        classpath 'com.android.tools.build:gradle:4.2.2'
+     }
+ }
+ 
+diff --git a/example/android/gradle.properties b/example/android/gradle.properties
+index 38c8d45..ef73a2e 100755
+--- a/example/android/gradle.properties
++++ b/example/android/gradle.properties
+@@ -1,4 +1,4 @@
+ org.gradle.jvmargs=-Xmx1536M
+-android.enableR8=true
++# android.enableR8=true
+ android.useAndroidX=true
+ android.enableJetifier=true
+diff --git a/example/android/gradle/wrapper/gradle-wrapper.properties b/example/android/gradle/wrapper/gradle-wrapper.properties
+index a100d9d..b765615 100755
+--- a/example/android/gradle/wrapper/gradle-wrapper.properties
++++ b/example/android/gradle/wrapper/gradle-wrapper.properties
+@@ -1,6 +1,6 @@
+-#Sat Jan 16 16:03:49 CST 2021
++#Fri Mar 25 13:41:09 CST 2022
+ distributionBase=GRADLE_USER_HOME
++distributionUrl=https\://services.gradle.org/distributions/gradle-6.7.1-bin.zip
+ distributionPath=wrapper/dists
+-zipStoreBase=GRADLE_USER_HOME
+ zipStorePath=wrapper/dists
+-distributionUrl=https\://services.gradle.org/distributions/gradle-4.10.2-all.zip
++zipStoreBase=GRADLE_USER_HOME
+diff --git a/example/pubspec.yaml b/example/pubspec.yaml
+index e19ee7b..4ca5355 100755
+--- a/example/pubspec.yaml
++++ b/example/pubspec.yaml
+@@ -10,7 +10,8 @@ description: Demonstrates how to use the flutter_boost plugin.
+ version: 1.0.0+1
+ 
+ environment:
+-  sdk: '>=2.12.0 <3.0.0'
++  # sdk: '>=2.12.0 <3.0.0'
++  sdk: '>=2.13.0-68.0.dev <3.0.0'
+ 
+ dependencies:
+   flutter:
