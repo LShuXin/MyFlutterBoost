@@ -10,26 +10,26 @@ v3.0-null-safety-release.1
 PS：空安全版本(null-safety)请看这里 https://github.com/alibaba/flutter_boost/tree/null-safety
 
 
-- 1.flutter sdk升级不需要升级boost
+- 1.flutter sdk 升级不需要升级 boost
 - 2.简化架构
 - 3.简化接口
 - 4.双端接口设计统一
-- 5.解决了top issue
-- 6.android不需要区分androidx 和support
+- 5.解决了 top issue
+- 6.android不需要区分 androidx 和 support
 
 # FlutterBoost
 
-新一代Flutter-Native混合解决方案。 FlutterBoost是一个Flutter插件，它可以轻松地为现有原生应用程序提供Flutter混合集成方案。FlutterBoost的理念是将Flutter像Webview那样来使用。在现有应用程序中同时管理Native页面和Flutter页面并非易事。 FlutterBoost帮你处理页面的映射和跳转，你只需关心页面的名字和参数即可（通常可以是URL）。
+新一代 Flutter-Native 混合解决方案。 FlutterBoost 是一个 Flutter 插件，它可以轻松地为现有原生应用程序提供 Flutter 混合集成方案。FlutterBoost 的理念是将 Flutter 像 Webview 那样来使用。在现有应用程序中同时管理 Native 页面和 Flutter 页面并非易事。 FlutterBoost 帮你处理页面的映射和跳转，你只需关心页面的名字和参数即可（通常可以是 URL）。
 
 
 # 前置条件
 
-1.在继续之前，您需要将Flutter集成到你现有的项目中。
-2.boost3.0版本支持的flutter sdk 版本为 >= 1.22
+1.在继续之前，您需要将 Flutter 集成到你现有的项目中。
+2.boost3.0 版本支持的 flutter sdk 版本为 >= 1.22
 
-## 将FlutterBoost添加到你的Flutter工程依赖中
+## 将 FlutterBoost 添加到你的 Flutter 工程依赖中
 
-打开你的工程的pubspec.yaml ，增加以下依赖
+打开你的工程的 pubspec.yaml ，增加以下依赖
 
 ```json
 flutter_boost:

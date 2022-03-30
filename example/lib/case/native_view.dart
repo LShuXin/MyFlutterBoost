@@ -6,9 +6,9 @@ import 'package:flutter/semantics.dart';
 import 'package:flutter/services.dart';
 
 class NativeView extends StatelessWidget {
-  const NativeView(this.viewType, this.hybridCompositionMode);
-  final bool hybridCompositionMode;
-  final String viewType;
+    const NativeView(this.viewType, this.hybridCompositionMode);
+    final bool hybridCompositionMode;
+    final String viewType;
 
   @override
   Widget build(BuildContext context) {

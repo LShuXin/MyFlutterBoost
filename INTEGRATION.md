@@ -1,5 +1,5 @@
-# Boost集成文档
-## dart测接入
+# Boost 集成文档
+## dart 测接入
 ### 1. 初始化：
 
 ```dart
@@ -11,30 +11,32 @@ class MyApp extends StatefulWidget {
   _MyAppState createState() => _MyAppState();
 }
 class _MyAppState extends State<MyApp> {
-   static Map<String, FlutterBoostRouteFactory>
-	   routerMap = {
-    '/': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings, pageBuilder: (_, __, ___)
-          => Container());
-    },
-    'embedded': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) =>
-          EmbeddedFirstRouteWidget());
-    },
-    'presentFlutterPage': (settings, uniqueId) {
-      return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) =>
-          FlutterRouteWidget(
-                params: settings.arguments,
-                uniqueId: uniqueId,
-              ));
-    }};
-   Route<dynamic> routeFactory(RouteSettings settings, String uniqueId) {
-    FlutterBoostRouteFactory func =routerMap[settings.name];
+  static Map<String, FlutterBoostRouteFactory>
+    routerMap = {
+  '/': (settings, uniqueId) {
+    return PageRouteBuilder<dynamic>(
+      settings: settings,
+      pageBuilder: (_, __, ___) => Container(),
+    );
+  },
+  'embedded': (settings, uniqueId) {
+    return PageRouteBuilder<dynamic>(
+      settings: settings,
+      pageBuilder: (_, __, ___) => EmbeddedFirstRouteWidget()
+    );
+  },
+  'presentFlutterPage': (settings, uniqueId) {
+    return PageRouteBuilder<dynamic>(
+      settings: settings,
+      pageBuilder: (_, __, ___) => FlutterRouteWidget(
+        params: settings.arguments,
+        uniqueId: uniqueId,
+      ),
+    );
+  }};
+
+  Route<dynamic> routeFactory(RouteSettings settings, String uniqueId) {
+    FlutterBoostRouteFactory func = routerMap[settings.name];
     if (func == null) {
       return null;
     }
@@ -53,7 +55,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
   ```
-### 2.Boost生命周期监听：
+### 2.Boost 生命周期监听：
 ```dart
 class SimpleWidget extends StatefulWidget {
   final Map params;
@@ -66,8 +68,7 @@ class SimpleWidget extends StatefulWidget {
   _SimpleWidgetState createState() => _SimpleWidgetState();
 }
 
-class _SimpleWidgetState extends State<SimpleWidget>
-    with PageVisibilityObserver {
+class _SimpleWidgetState extends State<SimpleWidget> with PageVisibilityObserver {
   static const String _kTag = 'xlog';
   @override
   void didChangeDependencies() {
@@ -112,13 +113,11 @@ class _SimpleWidgetState extends State<SimpleWidget>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('tab_example'),
-      ),
+      appBar: AppBar(title: Text('tab_example')),
       body: SingleChildScrollView(
           physics: BouncingScrollPhysics(),
           child: Container(
-              child: Column(
+            child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
@@ -146,8 +145,10 @@ class _SimpleWidgetState extends State<SimpleWidget>
                       'open flutter page',
                       style: TextStyle(fontSize: 22.0, color: Colors.black),
                     )),
-                onTap: () => BoostNavigator.instance.push("flutterPage",
-                    arguments: <String, String>{'from': widget.uniqueId}),
+                onTap: () => BoostNavigator.instance.push(
+                  "flutterPage",
+                  arguments: <String, String>{'from': widget.uniqueId},
+                ),
               )
               Container(
                 height: 300,
@@ -166,8 +167,7 @@ class _SimpleWidgetState extends State<SimpleWidget>
 ### 页面跳转
 打开页面
 ```java
- String result = await BoostNavigator.instance
-                        .push("flutterPage", withContainer: true);
+ String result = await BoostNavigator.instance.push("flutterPage", withContainer: true);
 ```
 关闭页面
 ```java
@@ -178,35 +178,35 @@ BoostNavigator.instance.pop('I am result for popping.'),
 ```java
 public class MyApplication extends FlutterApplication {
 
-
     @Override
     public void onCreate() {
         super.onCreate();
 
-        FlutterBoost.instance().setup(this, new FlutterBoostDelegate() {
+        FlutterBoost.instance().setup(
+            this,
+            new FlutterBoostDelegate() {
 
-            @Override
-            public void pushNativeRoute(String pageName, HashMap<String, String> arguments) {
-                Intent intent = new Intent(FlutterBoost.instance().currentActivity(), NativePageActivity.class);
-                FlutterBoost.instance().currentActivity().startActivity(intent);
-            }
+                @Override
+                public void pushNativeRoute(String pageName, HashMap<String, String> arguments) {
+                    Intent intent = new Intent(FlutterBoost.instance().currentActivity(), NativePageActivity.class);
+                    FlutterBoost.instance().currentActivity().startActivity(intent);
+                }
 
-            @Override
-            public void pushFlutterRoute(String pageName, HashMap<String, String> arguments) {
-                Intent intent = new FlutterBoostActivity.CachedEngineIntentBuilder(FlutterBoostActivity.class, FlutterBoost.ENGINE_ID)
+                @Override
+                public void pushFlutterRoute(String pageName, HashMap<String, String> arguments) {
+                    Intent intent = new FlutterBoostActivity.CachedEngineIntentBuilder(FlutterBoostActivity.class, FlutterBoost.ENGINE_ID)
                         .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.opaque)
                         .destroyEngineWithActivity(false)
                         .url(pageName)
                         .urlParams(arguments)
                         .build(FlutterBoost.instance().currentActivity());
-                FlutterBoost.instance().currentActivity().startActivity(intent);
+                    FlutterBoost.instance().currentActivity().startActivity(intent);
+                }
+            },
+            engine->{
+                engine.getPlugins();
             }
-
-        },engine->{
-            engine.getPlugins();
-        } );
-
-
+        );
     }
 }
 
@@ -234,17 +234,18 @@ flutterEmbedding=2
             <meta-data android:name="io.flutter.embedding.android.SplashScreenDrawable" android:resource="@drawable/launch_background"/>
 
         </activity>
-        <meta-data android:name="flutterEmbedding"
-                   android:value="2">
+        <meta-data 
+            android:name="flutterEmbedding"
+            android:value="2">
         </meta-data>
     </application>
 </manifest>
 ```
-### 3.native 打开关闭Flutter页面
+### 3.native 打开关闭 Flutter 页面
 ```java
 FlutterBoost.instance().open("flutterPage",params);
 
- FlutterBoost.instance().close("uniqueId");
+FlutterBoost.instance().close("uniqueId");
 
 ```
 ## IOS测接入

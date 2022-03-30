@@ -22,37 +22,41 @@ class _MyAppState extends State<MyApp> {
     },
     'mainPage': (settings, uniqueId) {
       return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) {
-            final Map<String, Object> map = settings.arguments;
-            final String dataString = map['data'];
-            return Scaffold(
-              body: Center(
-                  child: Column(
+        settings: settings,
+        pageBuilder: (_, __, ___) {
+          final Map<String, Object> map = settings.arguments;
+          final String dataString = map['data'];
+          return Scaffold(
+            body: Center(
+                child: Column(
                 children: [
                   Text('mainPage text'),
                   Text(dataString ?? ''),
                 ],
-              )),
-            );
-          });
+              )
+            ),
+          );
+        }
+      );
     },
     'secondPage': (settings, uniqueId) {
       return PageRouteBuilder<dynamic>(
-          settings: settings,
-          pageBuilder: (_, __, ___) {
-            final Map<String, Object> map = settings.arguments;
-            final String dataString = map['data'];
-            return Scaffold(
-              body: Center(
-                  child: Column(
+        settings: settings,
+        pageBuilder: (_, __, ___) {
+          final Map<String, Object> map = settings.arguments;
+          final String dataString = map['data'];
+          return Scaffold(
+            body: Center(
+                child: Column(
                 children: [
                   Text('secondPage text'),
                   Text(dataString ?? ''),
                 ],
-              )),
-            );
-          });
+              )
+            ),
+          );
+        }
+      );
     },
   };
 

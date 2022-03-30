@@ -43,11 +43,11 @@ public class NativeRouter {
 
         try {
             if (pageName.containsKey(path)) {
-                Intent intent =FlutterActivity.createDefaultIntent(context);
-                if(context instanceof Activity){
-                    Activity activity=(Activity)context;
-                    activity.startActivityForResult(intent,requestCode);
-                }else{
+                Intent intent = FlutterActivity.createDefaultIntent(context);
+                if(context instanceof Activity) {
+                    Activity activity = (Activity)context;
+                    activity.startActivityForResult(intent, requestCode);
+                } else {
                     context.startActivity(intent);
                 }
                 return true;

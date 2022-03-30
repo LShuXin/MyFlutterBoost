@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		120F01A1265E0D0600884A79 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 120F019E265E0D0600884A79 /* AppFrameworkInfo.plist */; };
-		120F01A2265E0D0600884A79 /* Debug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 120F019F265E0D0600884A79 /* Debug.xcconfig */; };
-		120F01A3265E0D0600884A79 /* Release.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 120F01A0265E0D0600884A79 /* Release.xcconfig */; };
 		128A23A22657F55B00957080 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128A23A12657F55B00957080 /* HomeViewController.swift */; };
 		128A23C92657F67900957080 /* ConstraintMultiplierTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128A23A42657F67900957080 /* ConstraintMultiplierTarget.swift */; };
 		128A23CA2657F67900957080 /* LayoutConstraintItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128A23A52657F67900957080 /* LayoutConstraintItem.swift */; };
@@ -293,7 +291,7 @@
 		97C146E61CF9000F007C117D /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1330;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
 					97C146ED1CF9000F007C117D = {
@@ -327,9 +325,7 @@
 			files = (
 				97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */,
 				97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */,
-				120F01A3265E0D0600884A79 /* Release.xcconfig in Resources */,
 				97C146FC1CF9000F007C117D /* Main.storyboard in Resources */,
-				120F01A2265E0D0600884A79 /* Debug.xcconfig in Resources */,
 				120F01A1265E0D0600884A79 /* AppFrameworkInfo.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -501,6 +497,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -525,7 +522,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -556,6 +553,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -574,7 +572,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SUPPORTED_PLATFORMS = iphoneos;

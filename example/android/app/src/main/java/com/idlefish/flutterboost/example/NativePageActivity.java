@@ -49,7 +49,7 @@ public class NativePageActivity extends AppCompatActivity implements View.OnClic
         params.put("int", 666);
 
         if (v == mOpenNative) {
-            NativeRouter.openPageByUrl(this, NativeRouter.NATIVE_PAGE_URL,params);
+            NativeRouter.openPageByUrl(this, NativeRouter.NATIVE_PAGE_URL, params);
         } else if (v == mOpenFlutter) {
             Intent intent = new FlutterBoostActivity.CachedEngineIntentBuilder(FlutterBoostActivity.class)
                     .backgroundMode(FlutterActivityLaunchConfigs.BackgroundMode.opaque)
@@ -59,7 +59,7 @@ public class NativePageActivity extends AppCompatActivity implements View.OnClic
                     .build(this);
             startActivity(intent);
         } else if (v == mOpenFlutterFragment) {
-            NativeRouter.openPageByUrl(this, NativeRouter.FLUTTER_FRAGMENT_PAGE_URL,params);
+            NativeRouter.openPageByUrl(this, NativeRouter.FLUTTER_FRAGMENT_PAGE_URL, params);
         }
     }
 
